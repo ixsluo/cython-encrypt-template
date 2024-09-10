@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools", "cython", "setuptools_scm"]
+
+[tool.setuptools]
+# packages = ["setuptools.find_namespace_packages()"]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["mypkg*", "example*"]
+# exclude = ["doc", "mypkg.mod"]
+
+[tool.setuptools.package-data]
+"mypkg" = ["**/*.so"]
+"example" = ["**/*"]
+
+[tool.setuptools.exclude-package-data]
+# "*" = ["*.c", "*.py"]
+# "mypkg.mod" = ["*.py"]
+# "mypkg" = ["mod/**/*.py"]
+
+[tool.setuptools_scm]
+write_to = "mypkg/_version.py"
+
+[project]
+name = "mypkg"
+dynamic = ["version"]
