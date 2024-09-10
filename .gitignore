@@ -1,1 +1,7 @@
+*.c
+*.so
+*.egg-info/
+build*/
+dist*/
+
 _version.py

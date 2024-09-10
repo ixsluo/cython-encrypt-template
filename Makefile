@@ -2,20 +2,23 @@ PROJDIR      := mypkg
 PYTHON       := python
 DIST_DIR     := dist
 TMP_DIST_DIR := dist_tmp
-VERSION      := $(shell pip list|grep 'setuptools-scm' > /dev/null 2>&1 || pip install setuptools_scm > /dev/null 2>&1 && python -m setuptools_scm -r . 2>/dev/null||echo Unknown)
-TARGET       := $(shell $(PYTHON) -m build -o $(TMP_DIST_DIR) -s | tail -1 |awk '{print $$NF}' || echo error;)
+WHL          := $(DIST_DIR)/$(lastword $(shell $(PYTHON) package_tag.py set |tail -1 || echo error |tail -1)).whl
 
 
 .PHONY: all bdist sdist clean veryclean
 
-all:
-ifeq ($(lastword $(TARGET)),error)
-	$(error Finding TARGET name failed. You can manually check by `$(PYTHON) -m build -o $(TMP_DIST_DIR) -s`)
+all: $(DIST_DIR)/$(WHL)
+
+$(DIST_DIR)/$(WHL): $(TMP_DIST_DIR)/$(WHL)
+
+$(TMP_DIST_DIR)/$(WHL):
+ifeq ($(WHL),error.whl)
+	$(error Finding TARGET name failed. You can manually check by `$(PYTHON) package_tag.py set`)
 endif
-	echo $(VERSION)
-	rm -r $(TMP_DIST_DIR)
-	$(PYTHON) setup_b.py build_ext --inplace
+	$(PYTHON) setup_compile.py build_ext --inplace
 	$(PYTHON) -m build -o $(TMP_DIST_DIR) -s
+	tar -zxf $(TMP_DIST_DIR)/*.tar.gz -C $(TMP_DIST_DIR)
+	@echo $(WHL)
 
 bdist:
 	mkdir -p $(DIST_DIR)
