@@ -12,6 +12,7 @@ $(DIST_DIR)/$(WHL):
 ifeq ($(WHL),error.whl)
 	$(error Finding TARGET name failed. You can manually check by `$(PYTHON) package_tag.py set`)
 endif
+	-rm -r $(TMP_DIST_DIR)/
 	$(PYTHON) setup_compile.py build_ext --inplace
 	$(PYTHON) -m build -o $(TMP_DIST_DIR) -s
 	tar -zxf $(TMP_DIST_DIR)/*.tar.gz -C $(TMP_DIST_DIR)
@@ -23,4 +24,6 @@ clean:
 	-find . -name '*.so' -not -path './build/*' | sed -E 's|(.*/)?([^/.]+)\..*|\1\2.c|' | xargs rm -f
 	-@tput bold; echo "Remove all .so files out of ./build dir"; tput sgr0
 	-find . -name '*.so' -not -path './build/*' | xargs rm -f
-	-rm -r setup.py $(TMP_DIST_DIR) *.egg-info/ build/
+	-rm -r setup.py $(TMP_DIST_DIR)/ *.egg-info/ build/
+veryclean: clean
+	-rm -r $(DIST_DIR)/

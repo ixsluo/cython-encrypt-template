@@ -8,7 +8,6 @@ include-package-data = true
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["mypkg*", "example*"]
-# exclude = ["doc", "mypkg.mod"]
 
 [tool.setuptools.package-data]
 "mypkg" = ["**/*.so"]
