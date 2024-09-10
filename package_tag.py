@@ -134,7 +134,7 @@ def parse_args(print_help=False):
 
     wheel = subparsers.add_parser("wheel", help="replace abi from given wheel name")
     wheel.set_defaults(name="wheel", func=modify_wheel_name)
-    wheel.add_argument("wheel", nargs="+", help="wheel name")
+    wheel.add_argument("wheel", nargs="+", help="wheel names, only the first one is used.")
 
     setname = subparsers.add_parser("set", help="set package filename without suffix")
     setname.set_defaults(name="setname", func=set_package_fname)

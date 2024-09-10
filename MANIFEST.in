@@ -4,5 +4,5 @@
 # include mypkg/**/__init__.py
 # global-exclude **/*.c
 # global-exclude    mypkg/mod/*.py
-# recursive-exclude mypkg/mod *.py
+recursive-exclude mypkg/mod *.py
 

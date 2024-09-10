@@ -1,7 +1,11 @@
 *.c
 *.so
 *.egg-info/
+__pycache__/
+
 build*/
 dist*/
+*.whl
+*.tar.gz
 
 _version.py
